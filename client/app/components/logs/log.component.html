@@ -61,7 +61,7 @@
                 <td>{{log.from_ip}}</td>
                 <td>{{log.message}}</td>
                 <td><input type="button" value="Update" (click)="displayUpdateLog(log._id)" class="btn btn-primary btn-xs"/> &nbsp;
-                   <button type="button" class="btn btn-danger btn-xs" [disabled]="displayUpdateButton">Delete</button>
+                   <button type="button" class="btn btn-danger btn-xs" [disabled]="displayUpdateButton" (click)="deleteLog(log._id)">Delete</button>
                     <!--<input type="button" value="Delete" [disabled]="" (click)="deleteLog(log._id)" class="btn btn-danger btn-xs" />-->
                 </td>
             </tr>
