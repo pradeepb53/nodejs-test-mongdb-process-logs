@@ -28,9 +28,6 @@ var LogComponent = (function () {
         this.logService.getLogs()
             .subscribe(function (logs) {
             _this.logs = logs;
-            if (_this.logs.length == 0) {
-                console.log("Data not found!");
-            }
         });
     };
     LogComponent.prototype.addLog = function () {
@@ -121,7 +118,7 @@ LogComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: 'logs',
-        templateUrl: 'log.component.html',
+        templateUrl: 'log.html',
         providers: [log_service_1.LogService],
     }),
     __metadata("design:paramtypes", [log_service_1.LogService])

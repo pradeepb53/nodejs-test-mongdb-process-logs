@@ -6,7 +6,7 @@ import {iLog} from '../../shared/interfaces';
 @Component({
   moduleId: module.id,
   selector: 'logs',
-  templateUrl:'log.component.html',
+  templateUrl:'log.html',
   providers:[LogService],
 })
 
@@ -36,9 +36,6 @@ export class LogComponent {
         this.logService.getLogs()
       .subscribe(logs =>{
            this.logs = logs;
-           if(this.logs.length == 0){
-             console.log("Data not found!");
-           }
       });       
      }
 

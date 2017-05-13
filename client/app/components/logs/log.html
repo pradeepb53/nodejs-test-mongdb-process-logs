@@ -1,0 +1,65 @@
+<html>
+<div class="col-md-12">
+    <form #logForm="ngForm" class="well">
+        <div class="form-group">
+            <input type="text" class="form-control" id="messageID" [(ngModel)]="messageID" name="messageID" #messageid="ngModel" placeholder="Message ID"
+               required style="width: 3cm" />
+            <div [hidden]="messageID.valid" class="alert alert-danger">
+                Message ID is required
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <input type="text" [(ngModel)]="messageType" name="messageType" class="form-control" placeholder="Message Type" style="width: 4cm"
+            />
+        </div>
+        <div class="form-group">
+            <input type="number" [(ngModel)]="messageSeverity" name="messageSeverity" class="form-control" placeholder="Severity" style="width: 4cm"
+            />
+        </div>
+        <div class="form-group">
+            <input type="text" [(ngModel)]="ipAddress" name="ipAddress" class="form-control" placeholder="From IP Address" style="width: 4cm"
+            />
+        </div>
+        <div class="form-group">
+            <input type="text" [(ngModel)]="messageDesc" name="messageDesc" class="form-control" placeholder="Message Description" />
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!logForm.form.valid" (click)="addLog()">Add-Log</button>
+    </form>
+</div>
+<div>
+
+</div>
+
+<hr>
+
+<div class="col-md-12">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Message ID</th>
+                <th>Message Type</th>
+                <th>Severity</th>
+                <th>From IP</th>
+                <th>Description</th>
+                <th class="text-center" style="width:3.5cm"> Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let log of logs">
+                <td>{{log.message_id}}</td>
+                <td>{{log.message_type}}</td>
+                <td>{{log.severity}}</td>
+                <td>{{log.from_ip}}</td>
+                <td>{{log.message}}</td>
+                <td><input type="button" value="Update" (click)="displayUpdateLog(log._id)" class="btn btn-primary btn-xs" />                    &nbsp;
+                    <button type="button" class="btn btn-danger btn-xs" [disabled]="displayUpdateButton" (click)="deleteLog(log._id)">Delete</button>
+                    <!--<input type="button" value="Delete" [disabled]="" (click)="deleteLog(log._id)" class="btn btn-danger btn-xs" />-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</html>
