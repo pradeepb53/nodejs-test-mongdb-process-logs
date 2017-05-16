@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import {LogService} from '../../services/log.service';
 import {iLog} from '../../shared/interfaces';
 
+
 @Component({
   moduleId: module.id,
   selector: 'logs',
@@ -12,6 +13,7 @@ import {iLog} from '../../shared/interfaces';
 
 export class LogComponent {
     private logs: iLog[];
+
     private messageKey: object; 
     private messageID: string;
     private messageType: string;
@@ -28,8 +30,7 @@ export class LogComponent {
          //  {message_id: "Some", message_type:"Info", severity:10, from_ip:"10.3.2.1", message:"Another test"},
           // {message_id: "Some more", message_type:"Dignostic", severity:30, from_ip:"192.168.100.1", message:"Fiber optic"},
          // ] ;
-     this.getLogs();
-
+     this.getLogs();   
     }
 
      getLogs() {
