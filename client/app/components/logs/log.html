@@ -4,10 +4,10 @@
         <div class="form-group">
             <input type="text" class="form-control" id="messageID" required [(ngModel)]="messageID" name="messageID" #messageid="ngModel"
                 placeholder="Message ID" style="width: 3cm" #spy />
-            <div [hidden]="messageid.valid"  class="alert alert-danger">
+            <div [hidden]="messageid.valid" class="alert alert-danger">
                 Message ID is required
             </div>
-               <!--{{spy.className}}-->
+            <!--{{spy.className}}-->
         </div>
         <div class="form-group">
             <input type="text" [(ngModel)]="messageType" name="messageType" class="form-control" placeholder="Message Type" style="width: 4cm"
@@ -24,9 +24,29 @@
         <div class="form-group">
             <input type="text" [(ngModel)]="messageDesc" name="messageDesc" class="form-control" placeholder="Message Description" />
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="!logForm.form.valid" (click)="addLog()">Add-Log</button>
+
+        <div>
+            <div class="col-md-3" *ngIf="!displayUpdateButton">
+                <button type="submit" class="btn btn-primary" [disabled]="!logForm.form.valid" (click)="addLog()">Add-Log</button>
+            </div>
+            &nbsp;&nbsp;
+            <div class="col-md-3" *ngIf="displayUpdateButton">
+                <button type="submit" class="btn btn-primary" [disabled]="!logForm.form.valid" (click)="updateLog()">Update-Log</button>
+            </div>
+            <span>
+
+        <div class="col-md-3"> 
+           <button type="submit" class="btn btn-default" [disabled]="!logForm.form.valid" (click)="clearFormFields()">Clear-Input</button>
+        </div>
+
+        </span>
+
+        </div>
+        <br>
     </form>
+
 </div>
+
 <div>
 
 </div>
@@ -54,7 +74,6 @@
                 <td>{{log.message}}</td>
                 <td><input type="button" value="Update" (click)="displayUpdateLog(log._id)" class="btn btn-primary btn-xs" />                    &nbsp;
                     <button type="button" class="btn btn-danger btn-xs" [disabled]="displayUpdateButton" (click)="deleteLog(log._id)">Delete</button>
-                    <!--<input type="button" value="Delete" [disabled]="" (click)="deleteLog(log._id)" class="btn btn-danger btn-xs" />-->
                 </td>
             </tr>
         </tbody>

@@ -87,7 +87,6 @@ var LogComponent = (function () {
             .subscribe(function (log) {
             _this.getLogs();
         });
-        this.displayUpdateButton = false;
         this.clearFormFields();
     };
     LogComponent.prototype.clearFormFields = function () {
@@ -96,21 +95,7 @@ var LogComponent = (function () {
         this.messageSeverity = 0;
         this.ipAddress = "";
         this.messageDesc = "";
-    };
-    LogComponent.prototype.validateMessageID = function () {
-        if (this.messageID.length > 3) {
-            if (this.displayUpdateButton) {
-                this.displayAddButton = false;
-            }
-            else {
-                this.displayAddButton = true;
-                this.displayUpdateButton = false;
-            }
-        }
-        else {
-            this.displayAddButton = false;
-            this.displayUpdateButton = false;
-        }
+        this.displayUpdateButton = false;
     };
     return LogComponent;
 }());

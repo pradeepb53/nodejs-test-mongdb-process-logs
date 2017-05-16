@@ -100,7 +100,6 @@ export class LogComponent {
           this.getLogs();
         });
 
-     this.displayUpdateButton = false;
      this.clearFormFields();
     }
 
@@ -110,9 +109,10 @@ export class LogComponent {
       this.messageSeverity = 0;
       this.ipAddress = "";
       this.messageDesc = "";
+      this.displayUpdateButton = false;
     }
 
-    validateMessageID() {
+    /*validateMessageID() {
       if (this.messageID.length > 3) {
         if (this.displayUpdateButton) {
           this.displayAddButton = false;
@@ -124,5 +124,5 @@ export class LogComponent {
          this.displayAddButton = false;
           this.displayUpdateButton = false;
       }
-    }
+    }*/
 }
