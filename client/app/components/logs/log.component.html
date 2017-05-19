@@ -1,15 +1,27 @@
 <html>
 <div class="col-md-12">
-    <form #inputForm= "ngForm" class="well">
+    <form #logForm="ngForm" class="well">
         <div class="form-group">
-            <input type="text" [(ngModel)]="messageID"  name="messageID" (input)="validateMessageID()" class="form-control" placeholder="Message ID" style="width: 3cm"
-            />
+            <input type="text" class="form-control" id="messageID" required [(ngModel)]="messageID" name="messageID" #messageid="ngModel"
+                placeholder="Message ID" style="width: 3cm" #spy />
+            <div [hidden]="messageid.valid" class="alert alert-danger">
+                Message ID is required
+            </div>
+            <!--{{spy.className}}-->
         </div>
-
         <div class="form-group">
             <input type="text" [(ngModel)]="messageType" name="messageType" class="form-control" placeholder="Message Type" style="width: 4cm"
             />
         </div>
+        <!--<div class="form-group">
+            <input type="text" [mdDatepicker]="myDatepicker" name="messageDate"class="form-control" id="messageDate"/>
+            <md-datepicker #myDatepicker></md-datepicker> 
+        </div>-->
+        <md-input-container>
+  <input mdInput [mdDatepicker]="picker" placeholder="Choose a date">
+  <button mdSuffix [mdDatepickerToggle]="picker"></button>
+</md-input-container>
+<md-datepicker #picker></md-datepicker>
         <div class="form-group">
             <input type="number" [(ngModel)]="messageSeverity" name="messageSeverity" class="form-control" placeholder="Severity" style="width: 4cm"
             />
@@ -21,20 +33,28 @@
         <div class="form-group">
             <input type="text" [(ngModel)]="messageDesc" name="messageDesc" class="form-control" placeholder="Message Description" />
         </div>
+
+        <div>
+            <div class="col-md-3" *ngIf="!displayUpdateButton">
+                <button type="submit" class="btn btn-primary" [disabled]="!logForm.form.valid" (click)="addLog()">Add-Log</button>
+            </div>
+            &nbsp;&nbsp;
+            <div class="col-md-3" *ngIf="displayUpdateButton">
+                <button type="submit" class="btn btn-primary" [disabled]="!logForm.form.valid" (click)="updateLog()">Update-Log</button>
+            </div>
+            <span>
+
+        <div class="col-md-3"> 
+           <button type="submit" class="btn btn-default" [disabled]="!logForm.form.valid" (click)="clearFormFields()">Clear-Input</button>
+        </div>
+
+        </span>
+        </div>
+        <br>
     </form>
-    <div class="well">
-        <div *ngIf = displayAddButton> 
-             <button type="submit" class="btn btn-primary" (click)="addLog()">Add-Log</button>
-        </div>
-       
-        &nbsp;&nbsp;
-        <div *ngIf = displayUpdateButton> 
-           <button type="submit" class="btn btn-primary" (click)="updateLog()">Update-Log</button>
-        </div>
-        
-    </div>
 
 </div>
+
 <div>
 
 </div>
@@ -60,13 +80,13 @@
                 <td>{{log.severity}}</td>
                 <td>{{log.from_ip}}</td>
                 <td>{{log.message}}</td>
-                <td><input type="button" value="Update" (click)="displayUpdateLog(log._id)" class="btn btn-primary btn-xs"/> &nbsp;
-                   <button type="button" class="btn btn-danger btn-xs" [disabled]="displayUpdateButton" (click)="deleteLog(log._id)">Delete</button>
-                    <!--<input type="button" value="Delete" [disabled]="" (click)="deleteLog(log._id)" class="btn btn-danger btn-xs" />-->
+                <td><input type="button" value="Update" (click)="displayUpdateLog(log._id)" class="btn btn-primary btn-xs" />                    &nbsp;
+                    <button type="button" class="btn btn-danger btn-xs" [disabled]="displayUpdateButton" (click)="deleteLog(log._id)">Delete</button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <pagination [itemsPerPage]="5" [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
 </div>
 
 </html>

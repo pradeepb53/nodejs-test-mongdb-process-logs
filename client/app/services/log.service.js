@@ -17,9 +17,31 @@ var LogService = (function () {
         this.http = http;
         console.log('Log Service Initialized....');
     }
-    LogService.prototype.getLogs = function () {
+    /*getLogs() {
         return this.http.get('http://localhost:3000/api/logs')
-            .map(function (res) { return res.json(); });
+            .map((res) => res.json());
+    }*/
+    LogService.prototype.getLogs = function (page) {
+        var _this = this;
+        return this.http.get('http://localhost:3000/api/logs')
+            .map(function (res) {
+            var logs = res.json();
+            var totalRows = _this.getTotalRows(logs);
+            logs = _this.getCurrentPage(logs, page);
+            return {
+                results: logs,
+                totalRows: totalRows,
+                page: page,
+            };
+        });
+    };
+    LogService.prototype.getTotalRows = function (data) {
+        return data.length;
+    };
+    LogService.prototype.getCurrentPage = function (data, page) {
+        var arrayStart = (page - 1) * 5;
+        console.log("Page is :" + page + " arrayStart : " + arrayStart);
+        return data.slice(arrayStart, page * 5);
     };
     LogService.prototype.addLog = function (newLog) {
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });

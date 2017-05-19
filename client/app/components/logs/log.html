@@ -78,6 +78,7 @@
             </tr>
         </tbody>
     </table>
+    <pagination [itemsPerPage]="5" [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
 </div>
 
 </html>

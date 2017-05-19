@@ -12,11 +12,35 @@ export class LogService {
         console.log('Log Service Initialized....');
     }
     
-    getLogs() {
+    /*getLogs() {
         return this.http.get('http://localhost:3000/api/logs')
             .map((res) => res.json());
+    }*/
+
+    getLogs(page: number) {
+       return this.http.get('http://localhost:3000/api/logs')
+            .map((res: Response)=> {
+               let logs = res.json();
+                let totalRows = this.getTotalRows(logs);
+                logs = this.getCurrentPage(logs, page);
+                return {
+                    results: logs,
+                    totalRows: totalRows,
+                    page: page,
+                }
+            }); 
     }
 
+     getTotalRows(data: [iLog]): number {
+        return data.length;
+    }
+
+       getCurrentPage(data: iLog[], page: number): iLog[] {
+        let arrayStart = (page - 1) * 5;
+        console.log("Page is :" + page + " arrayStart : " + arrayStart);
+        return data.slice(arrayStart, page * 5);
+    }
+    
     addLog(newLog: any) {
         var headers = new Headers({'Content-Type': 'application/json'});
         //headers.append('Content-Type', 'application/json');

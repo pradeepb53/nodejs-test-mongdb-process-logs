@@ -13,23 +13,43 @@ var core_1 = require("@angular/core");
 var log_service_1 = require("../../services/log.service");
 var LogComponent = (function () {
     function LogComponent(logService) {
-        this.logService = logService;
-        this.displayAddButton = false;
-        this.displayUpdateButton = false;
         // this.logs =[
         //   {message_id: "CPF2345", message_type:"Error", severity:40, from_ip:"10.2.3.15", message:"This is a test"},
         //  {message_id: "Some", message_type:"Info", severity:10, from_ip:"10.3.2.1", message:"Another test"},
         // {message_id: "Some more", message_type:"Dignostic", severity:30, from_ip:"192.168.100.1", message:"Fiber optic"},
         // ] ;
-        this.getLogs();
+        this.logService = logService;
+        this.displayAddButton = false;
+        this.displayUpdateButton = false;
     }
-    LogComponent.prototype.getLogs = function () {
+    LogComponent.prototype.ngOnInit = function () {
+        //this.currentPage = 1;
+        //this.totalItems = 4;
+        this.setPageProperty(1);
+    };
+    LogComponent.prototype.setPage = function (pageNo) {
+        this.currentPage = pageNo;
+    };
+    LogComponent.prototype.pageChanged = function (event) {
+        //console.log('Page changed to: ' + event.page);
+        //console.log('Number items per page: ' + event.itemsPerPage);
+        this.setPageProperty(event.page);
+    };
+    LogComponent.prototype.setPageProperty = function (page) {
         var _this = this;
-        this.logService.getLogs()
-            .subscribe(function (logs) {
-            _this.logs = logs;
+        this.logService.getLogs(page)
+            .subscribe(function (response) {
+            _this.logs = response.results;
+            _this.totalItems = response.totalRows;
+            _this.currentPage = response.page;
         });
     };
+    /*getLogs() {
+       this.logService.getLogs()
+     .subscribe(logs =>{
+          this.logs = logs;
+     });
+    }*/
     LogComponent.prototype.addLog = function () {
         var _this = this;
         var addLog = {
@@ -41,22 +61,25 @@ var LogComponent = (function () {
         };
         this.logService.addLog(addLog)
             .subscribe(function (log) {
-            _this.logs.push(log);
+            // this.logs.push(log);
+            _this.setPageProperty(_this.currentPage);
             _this.clearFormFields();
             _this.displayAddButton = false;
         });
     };
     LogComponent.prototype.deleteLog = function (id) {
-        var logs = this.logs;
+        var _this = this;
+        //var logs = this.logs;
         this.logService.deleteLog(id)
             .subscribe(function (data) {
-            if (data.n == 1) {
-                for (var i = 0; i < logs.length; i++) {
-                    if (logs[i]._id == id) {
-                        logs.splice(i, 1);
-                    }
-                }
-            }
+            /*if (data.n == 1) {
+              for (var i = 0; i < logs.length; i++) {
+                 if(logs[i]._id == id){
+                   logs.splice(i, 1);
+                 }
+              }
+            }*/
+            _this.setPageProperty(_this.currentPage);
         });
     };
     LogComponent.prototype.displayUpdateLog = function (id) {
@@ -85,7 +108,8 @@ var LogComponent = (function () {
         };
         this.logService.updateLog(this.messageKey, updateLog)
             .subscribe(function (log) {
-            _this.getLogs();
+            //this.getLogs();
+            _this.setPageProperty(_this.currentPage);
         });
         this.clearFormFields();
     };
@@ -103,7 +127,7 @@ LogComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: 'logs',
-        templateUrl: 'log.html',
+        templateUrl: 'log.component.html',
         providers: [log_service_1.LogService],
     }),
     __metadata("design:paramtypes", [log_service_1.LogService])

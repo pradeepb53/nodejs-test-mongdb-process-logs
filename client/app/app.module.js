@@ -8,8 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
-//import { PaginationModule } from 'ng2-bootstrap/pagination';
-//import { PaginationModule} from 'ng2-bootstrap';
+var animations_1 = require("@angular/platform-browser/animations");
+var material_1 = require("@angular/material");
+var ng2_bootstrap_1 = require("ng2-bootstrap");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
 var app_component_1 = require("./app.component");
@@ -23,7 +24,14 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, http_1.HttpModule, forms_1.FormsModule],
+        imports: [platform_browser_1.BrowserModule,
+            http_1.HttpModule,
+            forms_1.FormsModule,
+            animations_1.BrowserAnimationsModule,
+            material_1.MaterialModule,
+            material_1.MdNativeDateModule,
+            material_1.MdDatepickerModule,
+            ng2_bootstrap_1.PaginationModule.forRoot()],
         declarations: [app_component_1.AppComponent, log_component_1.LogComponent, hero_component_1.HeroComponent],
         bootstrap: [app_component_1.AppComponent]
     })

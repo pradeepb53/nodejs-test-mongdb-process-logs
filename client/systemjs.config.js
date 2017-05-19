@@ -18,6 +18,11 @@
       '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
       '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
+      //angular materials - Pradeep's customization 05/18/2017
+      '@angular/material': 'node_modules/@angular/material/bundles/material.umd.js',
+      '@angular/animations': 'npm:@angular/animations/bundles/animations.umd.js',
+      '@angular/animations/browser': 'npm:@angular/animations/bundles/animations-browser.umd.js',
+      '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',   
 
       // other libraries
       'rxjs':                      'npm:rxjs',
@@ -36,7 +41,7 @@
         defaultExtension: 'js'
       },
        // ng2-bootstrap - Pradeep's Customization 03/01/2017
-    'ng2-bootstrap':              { format: 'cjs', main: 'bundles/ng2-bootstrap.umd.js', defaultExtension: 'js' },
+    'ng2-bootstrap':              { format: 'cjs', main: 'bundles/ngx-bootstrap.umd.js', defaultExtension: 'js' },
     'moment':                     { main: 'moment.js', defaultExtension: 'js' },
 
     }

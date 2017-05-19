@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import {LogService} from '../../services/log.service';
 import {iLog} from '../../shared/interfaces';
@@ -7,11 +7,11 @@ import {iLog} from '../../shared/interfaces';
 @Component({
   moduleId: module.id,
   selector: 'logs',
-  templateUrl:'log.html',
+  templateUrl:'log.component.html',
   providers:[LogService],
 })
 
-export class LogComponent {
+export class LogComponent implements OnInit{
     private logs: iLog[];
 
     private messageKey: object; 
@@ -23,6 +23,9 @@ export class LogComponent {
 
     private displayAddButton: boolean = false;
     private displayUpdateButton: boolean = false;
+
+    public totalItems: number;
+    public currentPage: number;
     
     constructor(private logService: LogService){
      // this.logs =[
@@ -30,15 +33,40 @@ export class LogComponent {
          //  {message_id: "Some", message_type:"Info", severity:10, from_ip:"10.3.2.1", message:"Another test"},
           // {message_id: "Some more", message_type:"Dignostic", severity:30, from_ip:"192.168.100.1", message:"Fiber optic"},
          // ] ;
-     this.getLogs();   
+      
     }
 
-     getLogs() {
+     ngOnInit() {
+       //this.currentPage = 1;
+       //this.totalItems = 4;
+        this. setPageProperty(1); 
+     }
+
+     public setPage(pageNo: number): void {
+        this.currentPage = pageNo;
+    }
+
+      public pageChanged(event: any): void {
+        //console.log('Page changed to: ' + event.page);
+        //console.log('Number items per page: ' + event.itemsPerPage);
+        this.setPageProperty(event.page);  
+    }
+
+    setPageProperty(page: number): void {
+       this.logService.getLogs(page)
+      .subscribe((response: any)=> {
+         this.logs = response.results;
+                this.totalItems = response.totalRows;
+                this.currentPage = response.page;
+      });
+               
+    }
+     /*getLogs() {
         this.logService.getLogs()
       .subscribe(logs =>{
            this.logs = logs;
       });       
-     }
+     }*/
 
     addLog() {
       var addLog = {
@@ -48,26 +76,27 @@ export class LogComponent {
         from_ip: this.ipAddress,
         message: this.messageDesc
       }
-
       this.logService.addLog(addLog)
         .subscribe((log: any) => {
-          this.logs.push(log);
+         // this.logs.push(log);
+          this.setPageProperty(this.currentPage);
           this.clearFormFields();
           this.displayAddButton = false;
         });
     }
 
     deleteLog(id: any) {
-      var logs = this.logs;
+      //var logs = this.logs;
       this.logService.deleteLog(id)
         .subscribe((data: any) => {
-          if (data.n == 1) {
+          /*if (data.n == 1) {
             for (var i = 0; i < logs.length; i++) {
                if(logs[i]._id == id){
                  logs.splice(i, 1);
                }
             }
-          }
+          }*/
+          this.setPageProperty(this.currentPage);
         });
     }
 
@@ -97,7 +126,8 @@ export class LogComponent {
 
       this.logService.updateLog(this.messageKey, updateLog)
         .subscribe((log: any) => {
-          this.getLogs();
+          //this.getLogs();
+          this.setPageProperty(this.currentPage);
         });
 
      this.clearFormFields();
@@ -112,17 +142,4 @@ export class LogComponent {
       this.displayUpdateButton = false;
     }
 
-    /*validateMessageID() {
-      if (this.messageID.length > 3) {
-        if (this.displayUpdateButton) {
-          this.displayAddButton = false;
-        } else {
-          this.displayAddButton = true;
-          this.displayUpdateButton = false;
-        }
-      }else {
-         this.displayAddButton = false;
-          this.displayUpdateButton = false;
-      }
-    }*/
 }
